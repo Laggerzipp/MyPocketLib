@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/afacad_font</item>
+    </style>
+
+    <style name="TextStyleView" parent="TextStyle">
+        <item name="android:textColor">@color/btmNavBackground</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+</resources>

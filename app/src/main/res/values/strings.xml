@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">MyPocketLib</string>
+    <string name="library">Library</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="name">Name</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_in">Sign In</string>
+    <string name="backward">backward</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="see_also">See also</string>
+    <string name="wrg_login">Invalid login</string>
+    <string name="wrg_password">Invalid password</string>
+    <string name="users_grade">Users grade</string>
+    <string name="book_language">Book language</string>
+</resources>
