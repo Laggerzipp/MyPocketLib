@@ -26,7 +26,7 @@ class LibraryFragment : Fragment(),LibraryAdapter.Listener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentLibraryBinding.inflate(inflater)
         return binding.root
@@ -65,6 +65,7 @@ class LibraryFragment : Fragment(),LibraryAdapter.Listener {
 
     override fun onClick(book: Book) {
         val intent = Intent(activity, BookActivity::class.java)
+        intent.putExtra("book",book.title)
         startActivity(intent)
     }
 }

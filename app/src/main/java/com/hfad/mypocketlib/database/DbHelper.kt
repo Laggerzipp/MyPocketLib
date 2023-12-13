@@ -33,11 +33,11 @@ abstract class DbHelper:RoomDatabase() {
             return listOf(
                 Book(
                     null, R.drawable.book_drugoj_mir_popadanec ,"TestTitle1" ,"TestAuthor1",
-                    "Test book description", "★★★☆☆", "Ru", "testUrl"
+                    "Test book description", "★★★☆☆", "Ru", "https://drive.google.com/file/d/1DIiFGRXPwNjhPaTcXD2KMbvI86Qe8qQs/view"
                 ),
                 Book(
                     null, R.drawable.book_drugoj_mir_popadanec,"TestTitle2", "TestAuthor2",
-                    "Test book description2", "★★★★☆", "Eng", "testUrl2"
+                    "Test book description2", "★★★★☆", "Eng", "https://drive.google.com/file/d/1DIiFGRXPwNjhPaTcXD2KMbvI86Qe8qQs/view"
                 ))
         }
     }

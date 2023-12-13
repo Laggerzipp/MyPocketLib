@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import com.hfad.mypocketlib.MainActivity
 import com.hfad.mypocketlib.R
 import com.hfad.mypocketlib.database.DbHelper
@@ -30,7 +29,7 @@ class SignFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSignBinding.inflate(inflater)
         return binding.root
     }
@@ -92,7 +91,7 @@ class SignFragment : Fragment() {
                     condition = true
                 }
                 true -> {
-                    var user:User? = null
+                    var user:User?
                     val job = CoroutineScope(Dispatchers.IO).async{
                         db.getDao().getUserByLogin(inputLogin = binding.edLogin.text.toString())
                     }
