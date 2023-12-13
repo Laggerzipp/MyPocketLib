@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.hfad.mypocketlib.databinding.FragmentUserLibraryBinding
 
 class UserLibraryFragment : Fragment() {
-    lateinit var binding: FragmentUserLibraryBinding
+    private lateinit var binding: FragmentUserLibraryBinding
     private var fragmentCallback: FragmentCallback? = null
 
     fun setFragmentCallback(callback: FragmentCallback){
@@ -18,7 +18,7 @@ class UserLibraryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentUserLibraryBinding.inflate(inflater)
         return binding.root

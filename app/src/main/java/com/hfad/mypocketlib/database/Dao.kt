@@ -22,8 +22,6 @@ interface Dao {
     suspend fun insertBooks(books: List<Book>)
     @Query("SELECT * FROM books WHERE title = :inputTitle")
     suspend fun getBookByTitle(inputTitle: String): Book?
-    @Query("SELECT * FROM books WHERE author = :inputAuthor")
-    suspend fun getBooksByAuthor(inputAuthor: String): List<Book>
     @Query("DELETE FROM books")
     suspend fun clearBooksTable()
 }

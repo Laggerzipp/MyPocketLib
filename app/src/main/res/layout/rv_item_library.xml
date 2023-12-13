@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/layoutItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
@@ -11,77 +12,67 @@
     android:orientation="vertical">
 
 
-    <ImageView
-        android:id="@+id/imBook"
-        android:layout_width="@dimen/im_width"
-        android:layout_height="@dimen/im_height"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:src="@drawable/book_drugoj_mir_popadanec" />
-
-    <TextView
-        android:id="@+id/tvTitle"
-        style="@style/TextStyleView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/shape_layout_view"
-        android:gravity="center"
-        tool:text="Title" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvInfoG"
-            style="@style/TextStyleView"
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="25dp">
+
+            <ImageView
+                android:id="@+id/imBook"
+                android:layout_width="@dimen/im_width"
+                android:layout_height="@dimen/im_height"
+                android:layout_gravity="center"
+                android:src="@drawable/book_drugoj_mir_popadanec"
+                android:scaleType="fitXY"/>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:background="@drawable/shape_layout_view"
-            android:paddingStart="5dp"
-            android:text="@string/users_grade"
-            android:textSize="16sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvGrade"
-            style="@style/TextStyleView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/shape_layout_view"
-            android:gravity="center"
-            tool:text="★★★☆☆" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/TextStyleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/shape_rounded_layout"
+                android:gravity="center"
+                tool:text="Title" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvGrade"
+                style="@style/TextStyleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                tool:text="★★★☆☆" />
 
-        <TextView
-            android:id="@+id/tvInfoLang"
-            style="@style/TextStyleView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="14dp"
-            android:layout_weight="2"
-            android:background="@drawable/shape_layout_view"
-            android:paddingStart="5dp"
-            android:text="@string/book_language"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tvLang"
+                style="@style/TextStyleView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                tool:text="English" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvLang"
-            style="@style/TextStyleView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="14dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_layout_view"
-            android:gravity="center"
-            tool:text="English" />
     </LinearLayout>
 
 </LinearLayout>

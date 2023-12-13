@@ -8,27 +8,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hfad.mypocketlib.database.Book
 import com.hfad.mypocketlib.databinding.RvItemLibraryBinding
 
-class LibraryAdapter:RecyclerView.Adapter<LibraryAdapter.LibraryHolder>() {
+class LibraryAdapter(private val listener: Listener):RecyclerView.Adapter<LibraryAdapter.LibraryHolder>() {
     private val libraryList = ArrayList<Book>()
 
     class LibraryHolder(view: View):RecyclerView.ViewHolder(view){
-        val binding = RvItemLibraryBinding.bind(view)
-        fun bind(book:Book) = with(binding){
+        private val binding = RvItemLibraryBinding.bind(view)
+        fun bind(book:Book, listener: Listener) = with(binding){
             imBook.setImageResource(book.imageId)
             tvTitle.text = book.title
-            tvGrade.text = book.grade.toString()
+            tvGrade.text = book.grade
             tvLang.text = book.language
+            layoutItem.setOnClickListener {
+                listener.onClick(book)
+            }
         }
     }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibraryAdapter.LibraryHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibraryHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item_library,parent,false)
         return LibraryHolder(view)
     }
 
-    override fun onBindViewHolder(holder: LibraryAdapter.LibraryHolder, position: Int) {
-        holder.bind(libraryList[position])
+    override fun onBindViewHolder(holder: LibraryHolder, position: Int) {
+        holder.bind(libraryList[position], listener)
     }
 
     override fun getItemCount(): Int {
@@ -36,14 +39,12 @@ class LibraryAdapter:RecyclerView.Adapter<LibraryAdapter.LibraryHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addABook(book: Book){
+    fun addBook(book: Book){
         libraryList.add(book)
         notifyDataSetChanged()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun addAllBooks(books:List<Book>){
-        libraryList.addAll(books)
-        notifyDataSetChanged()
+    interface Listener{
+        fun onClick(book: Book)
     }
 }

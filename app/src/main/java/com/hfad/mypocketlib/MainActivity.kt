@@ -2,7 +2,6 @@ package com.hfad.mypocketlib
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import com.hfad.mypocketlib.database.DbHelper
 import com.hfad.mypocketlib.database.User
@@ -68,8 +67,8 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         return true
     }
 
-    override fun onFragmentAction(action: String, isSign: Boolean) {
-        isSignIn = isSign
+    override fun onFragmentAction(action: String, isSignIn: Boolean) {
+        this.isSignIn = isSignIn
         if (action == "startUserLibraryFragment") {
             fragment = UserLibraryFragment.newInstance()
             (fragment as UserLibraryFragment).setFragmentCallback(this)
