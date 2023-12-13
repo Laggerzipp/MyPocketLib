@@ -56,20 +56,27 @@ class SignFragment : Fragment() {
         }
 
         binding.btnSignUp.setOnClickListener{
+            val existingUser: User?
             val user = User(null,
             binding.edLogin.text.toString(),
             binding.edEmail.text.toString(),
             binding.edPas.text.toString())
 
-            CoroutineScope(Dispatchers.IO).launch {
-                db.getDao().insertUser(user)
+            val job = CoroutineScope(Dispatchers.IO).async {
+                db.getDao().getUserByLogin(binding.edLogin.text.toString())
             }
-
-            binding.btnSignUp.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            binding.btnSignUp.background = ContextCompat.getDrawable(requireContext(),
-                R.drawable.shape_button_accept
-            )
-            fragmentCallback?.onFragmentAction("startUserLibraryFragment",true)
+            runBlocking {
+                existingUser = job.await()
+            }
+            if (existingUser == null) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    db.getDao().insertUser(user)
+                }
+                fragmentCallback?.onFragmentAction("startUserLibraryFragment",true)
+            }
+            else {
+               binding.edLogin.error = resources.getText(R.string.login_already_exist)
+            }
         }
 
         binding.btnSignIn.setOnClickListener{

@@ -16,4 +16,5 @@
     <string name="wrg_password">Invalid password</string>
     <string name="users_grade">Users grade</string>
     <string name="book_language">Book language</string>
+    <string name="login_already_exist">Login already exist</string>
 </resources>

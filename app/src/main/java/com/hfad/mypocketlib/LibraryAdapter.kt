@@ -41,7 +41,7 @@ class LibraryAdapter(val listener: Listener):RecyclerView.Adapter<LibraryAdapter
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addABook(book: Book){
+    fun addBook(book: Book){
         libraryList.add(book)
         notifyDataSetChanged()
     }

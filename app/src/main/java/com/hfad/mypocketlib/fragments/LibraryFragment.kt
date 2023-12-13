@@ -14,6 +14,9 @@ import com.hfad.mypocketlib.MainActivity
 import com.hfad.mypocketlib.database.Book
 import com.hfad.mypocketlib.database.DbHelper
 import com.hfad.mypocketlib.databinding.FragmentLibraryBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LibraryFragment : Fragment(),LibraryAdapter.Listener {
     private lateinit var binding: FragmentLibraryBinding
@@ -35,11 +38,22 @@ class LibraryFragment : Fragment(),LibraryAdapter.Listener {
         // Getting the instance of the database from the activity
         val activity = requireActivity() as MainActivity
         db = activity.getDatabaseInstance()
+
+        val books = DbHelper.createBookTable().shuffled()
+        Log.d("Books","Book table successfully created")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            for(b in books){
+                val existingBook = db.getDao().getBookByTitle(b.title)
+                if (existingBook == null) {
+                    db.getDao().insertBook(b)
+                }
+                adapter.addBook(b)
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter.addAllBooks( DbHelper.createBookTable().shuffled())
-        Log.d("Books","Book table successfully created")
         binding.rvLibrary.layoutManager = LinearLayoutManager(requireContext())
         binding.rvLibrary.adapter = adapter
     }
