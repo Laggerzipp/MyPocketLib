@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hfad.mypocketlib.BookActivity
 import com.hfad.mypocketlib.LibraryAdapter
-import com.hfad.mypocketlib.MainActivity
 import com.hfad.mypocketlib.database.Book
 import com.hfad.mypocketlib.database.DbHelper
 import com.hfad.mypocketlib.databinding.FragmentLibraryBinding
@@ -32,12 +31,8 @@ class LibraryFragment : Fragment(),LibraryAdapter.Listener {
         return binding.root
     }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // Getting the instance of the database from the activity
-        val activity = requireActivity() as MainActivity
-        db = activity.getDatabaseInstance()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        db = DbHelper.getDb(requireContext())
 
         val books = DbHelper.createBookTable().shuffled()
         Log.d("Books","Book table successfully created")
@@ -51,9 +46,7 @@ class LibraryFragment : Fragment(),LibraryAdapter.Listener {
                 adapter.addBook(b)
             }
         }
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.rvLibrary.layoutManager = LinearLayoutManager(requireContext())
         binding.rvLibrary.adapter = adapter
     }

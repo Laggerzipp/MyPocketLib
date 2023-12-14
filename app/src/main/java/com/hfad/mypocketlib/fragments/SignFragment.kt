@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hfad.mypocketlib.MainActivity
 import com.hfad.mypocketlib.R
 import com.hfad.mypocketlib.database.DbHelper
 import com.hfad.mypocketlib.database.User
@@ -34,14 +33,8 @@ class SignFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // Getting the instance of the database from the activity
-        val activity = requireActivity() as MainActivity
-        db = activity.getDatabaseInstance()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        db = DbHelper.getDb(requireContext())
 
         binding.ibBack.setOnClickListener{
             condition = false
