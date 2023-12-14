@@ -56,25 +56,37 @@ class SignFragment : Fragment() {
 
         binding.btnSignUp.setOnClickListener{
             val existingUser: User?
-            val user = User(null,
-            binding.edLogin.text.toString(),
-            binding.edEmail.text.toString(),
-            binding.edPas.text.toString())
 
-            val job = CoroutineScope(Dispatchers.IO).async {
-                db.getDao().getUserByLogin(binding.edLogin.text.toString())
+            val login = binding.edLogin.text.toString()
+            val email = binding.edEmail.text.toString()
+            val pas = binding.edPas.text.toString()
+
+            if(login.length <= 1){
+                binding.edLogin.error = resources.getText(R.string.login_is_too_short)
             }
-            runBlocking {
-                existingUser = job.await()
+            else if(email.length < 10){
+                binding.edEmail.error = resources.getText(R.string.email_is_too_short)
             }
-            if (existingUser == null) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    db.getDao().insertUser(user)
+            else if(pas.length < 4){
+                binding.edPas.error = resources.getText(R.string.password_is_too_short)
+            }
+            else{
+                val user = User(null, login, email, pas)
+                val job = CoroutineScope(Dispatchers.IO).async {
+                    db.getDao().getUserByLogin(binding.edLogin.text.toString())
                 }
-                fragmentCallback?.onFragmentAction("startUserLibraryFragment",true)
-            }
-            else {
-               binding.edLogin.error = resources.getText(R.string.login_already_exist)
+                runBlocking {
+                    existingUser = job.await()
+                }
+                if (existingUser == null) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        db.getDao().insertUser(user)
+                    }
+                    fragmentCallback?.onFragmentAction("startUserLibraryFragment",true)
+                }
+                else {
+                    binding.edLogin.error = resources.getText(R.string.login_already_exist)
+                }
             }
         }
 
