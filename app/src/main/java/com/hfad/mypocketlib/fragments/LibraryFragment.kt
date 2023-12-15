@@ -21,11 +21,13 @@ class LibraryFragment : Fragment(),LibraryAdapter.Listener {
     private lateinit var binding: FragmentLibraryBinding
     private lateinit var db: DbHelper
     private val adapter = LibraryAdapter(this)
+    private var userLogin: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        userLogin = arguments?.getString("userLogin")
         // Inflate the layout for this fragment
         binding = FragmentLibraryBinding.inflate(inflater)
         return binding.root
@@ -59,6 +61,7 @@ class LibraryFragment : Fragment(),LibraryAdapter.Listener {
     override fun onClick(book: Book) {
         val intent = Intent(activity, BookActivity::class.java)
         intent.putExtra("book",book.title)
+        intent.putExtra("userLogin",userLogin)
         startActivity(intent)
     }
 }

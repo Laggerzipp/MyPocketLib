@@ -26,4 +26,10 @@
     <string name="email_is_too_short">Email is too short</string>
     <string name="password_is_too_short">Password is too short</string>
     <string name="login_info">Oops, you\'re not logged in. Please register or log in to your account to have access to your lists.</string>
+    <string name="log_out">Log Out</string>
+    <string name="my_lists">My Lists:</string>
+    <string name="to_read">To Read</string>
+    <string name="reading">Reading</string>
+    <string name="add_to_lists">Add to Lists</string>
+    <string name="book_image">Book image</string>
 </resources>

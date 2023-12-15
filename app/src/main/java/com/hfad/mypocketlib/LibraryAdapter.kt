@@ -44,6 +44,17 @@ class LibraryAdapter(private val listener: Listener):RecyclerView.Adapter<Librar
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun addBooks(books: List<Book>){
+        libraryList.addAll(books)
+        notifyDataSetChanged()
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    fun clearBooks(){
+        libraryList.clear()
+        notifyDataSetChanged()
+    }
+
     interface Listener{
         fun onClick(book: Book)
     }

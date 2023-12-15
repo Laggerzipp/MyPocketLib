@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
     private lateinit var db: DbHelper
     private lateinit var fragment: Fragment
     private var isSignIn : Boolean = false
+    private var userLogin : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,26 +48,21 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
                     when(it.itemId){
                         R.id.user_library -> openFragment(SignUpRequestFragment.newInstance(),R.id.frLayout)
                         R.id.library ->{
-                            fragment = SignFragment.newInstance()
-                            (fragment as SignFragment).setFragmentCallback(this)
-                            openFragment(fragment,R.id.frTool)
-                            binding.frLayout.visibility = View.VISIBLE
-                            openFragment(LibraryFragment.newInstance(),R.id.frLayout)
+                            onFragmentAction("startLibraryFragment",false,userLogin)
+                            true
                         }
                         else -> true
                     }
                 }
                 true -> {
-                    fragment = UserLibraryFragment.newInstance()
-                    (fragment as UserLibraryFragment).setFragmentCallback(this)
                     when(it.itemId){
-                        R.id.user_library -> openFragment(fragment,R.id.frLayout)
+                        R.id.user_library -> {
+                            onFragmentAction("startUserLibraryFragment",true,userLogin)
+                            true
+                        }
                         R.id.library -> {
-                            fragment = SignFragment.newInstance()
-                            (fragment as SignFragment).setFragmentCallback(this)
-                            openFragment(fragment,R.id.frTool)
-                            binding.frLayout.visibility = View.VISIBLE
-                            openFragment(LibraryFragment.newInstance(),R.id.frLayout)
+                            onFragmentAction("startLibraryFragment",true,userLogin)
+                            true
                         }
                         else -> true
                     }
@@ -83,11 +79,17 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         return true
     }
 
-    override fun onFragmentAction(action: String, isSignIn: Boolean, user: User?) {
+    override fun onFragmentAction(action: String, isSignIn: Boolean, userLogin: String?) {
         this.isSignIn = isSignIn
+        this.userLogin = userLogin
         if (action == "startUserLibraryFragment") {
+            val bundle = Bundle()
+            bundle.putString("userLogin", userLogin)
+
             fragment = UserLibraryFragment.newInstance()
             (fragment as UserLibraryFragment).setFragmentCallback(this)
+            fragment.arguments = bundle
+
             openFragment(fragment,R.id.frLayout)
         }
         if (action == "clearLayoutFragment") {
@@ -102,12 +104,32 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
             binding.btmNav.selectedItemId = R.id.user_library
             fragment = SignFragment.newInstance()
             (fragment as SignFragment).setFragmentCallback(this)
+
             openFragment(fragment,R.id.frLayout)
         }
         if (action == "startSignUpRequestFragment") {
+            fragment = SignFragment.newInstance()
+            (fragment as SignFragment).setFragmentCallback(this)
+            openFragment(fragment,R.id.frTool)
+
             binding.btmNav.selectedItemId = R.id.user_library
             binding.frTool.visibility = View.VISIBLE
+
             openFragment(SignUpRequestFragment.newInstance(),R.id.frLayout)
+        }
+        if (action == "startLibraryFragment") {
+            fragment = SignFragment.newInstance()
+            (fragment as SignFragment).setFragmentCallback(this)
+            openFragment(fragment,R.id.frTool)
+
+            binding.frLayout.visibility = View.VISIBLE
+            fragment = LibraryFragment.newInstance()
+
+            val bundle = Bundle()
+            bundle.putString("userLogin", userLogin)
+            fragment.arguments = bundle
+
+            openFragment(fragment,R.id.frLayout)
         }
     }
 }

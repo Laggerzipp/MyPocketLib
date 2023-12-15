@@ -93,7 +93,7 @@ class SignFragment : Fragment() {
                 binding.edPas.error = resources.getText(R.string.password_is_too_short)
             }
             else{
-                val user = User(null, login, email, pas, null, null , null)
+                val user = User(null, login, email, pas, "", "" , "")
                 val job = CoroutineScope(Dispatchers.IO).async {
                     db.getDao().getUserByLogin(binding.edLogin.text.toString())
                 }
@@ -105,7 +105,7 @@ class SignFragment : Fragment() {
                         db.getDao().insertUser(user)
                     }
                     fragmentCallback?.onFragmentAction("clearToolFragment",true, null)
-                    fragmentCallback?.onFragmentAction("startUserLibraryFragment",true, user)
+                    fragmentCallback?.onFragmentAction("startUserLibraryFragment",true, user.login)
                 }
                 else {
                     binding.edLogin.error = resources.getText(R.string.login_already_exist)
@@ -127,7 +127,7 @@ class SignFragment : Fragment() {
                 }
                 else{
                     fragmentCallback?.onFragmentAction("clearToolFragment",true, null)
-                    fragmentCallback?.onFragmentAction("startUserLibraryFragment",true, user)
+                    fragmentCallback?.onFragmentAction("startUserLibraryFragment",true, user!!.login)
                 }
             }
             else{

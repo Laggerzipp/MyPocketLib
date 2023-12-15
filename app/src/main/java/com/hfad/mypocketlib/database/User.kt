@@ -15,9 +15,9 @@ data class User (
     @ColumnInfo(name="password")
     var password: String,
     @ColumnInfo(name="readingBooks")
-    var readingBooks: List<String>?,
+    var readingBooks: String?,
     @ColumnInfo(name="readBooks")
-    var readBooks: List<String>?,
+    var readBooks: String?,
     @ColumnInfo(name="toReadBooks")
-    var toReadBooks: List<String>?
+    var toReadBooks: String?
 )

@@ -5,13 +5,9 @@ import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.hfad.mypocketlib.BookCreator
-import com.hfad.mypocketlib.ListStringConverter
-import com.hfad.mypocketlib.R
 
 @Database(entities = [User::class,Book::class], version = 4)
-@TypeConverters(ListStringConverter::class)
 abstract class DbHelper:RoomDatabase() {
 
     abstract fun getDao(): Dao
