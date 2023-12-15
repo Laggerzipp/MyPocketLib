@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.hfad.mypocketlib.BookCreator
 import com.hfad.mypocketlib.R
 
 @Database(entities = [User::class,Book::class], version = 3)
@@ -30,15 +31,7 @@ abstract class DbHelper:RoomDatabase() {
         }
 
          fun createBookTable(): List<Book> {
-            return listOf(
-                Book(
-                    null, R.drawable.book_drugoj_mir_popadanec ,"TestTitle1" ,"TestAuthor1",
-                    "Test book description", "★★★☆☆", "Ru", "https://drive.google.com/file/d/1DIiFGRXPwNjhPaTcXD2KMbvI86Qe8qQs/view"
-                ),
-                Book(
-                    null, R.drawable.book_drugoj_mir_popadanec,"TestTitle2", "TestAuthor2",
-                    "Test book description2", "★★★★☆", "Eng", "https://drive.google.com/file/d/1DIiFGRXPwNjhPaTcXD2KMbvI86Qe8qQs/view"
-                ))
+            return BookCreator().createBookList()
         }
     }
 

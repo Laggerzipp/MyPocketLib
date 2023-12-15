@@ -33,6 +33,7 @@ class BookActivity : AppCompatActivity() {
         }
 
         binding.apply {
+            book?.imageId?.let { imBook.setImageResource(it) }
             tvTitle.text = book?.title
             tvAuthor.text = book?.author
             tvGrade.text = book?.grade

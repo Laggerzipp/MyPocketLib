@@ -2,6 +2,7 @@ package com.hfad.mypocketlib
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.hfad.mypocketlib.database.DbHelper
 import com.hfad.mypocketlib.database.User
@@ -9,6 +10,7 @@ import com.hfad.mypocketlib.databinding.ActivityMainBinding
 import com.hfad.mypocketlib.fragments.FragmentCallback
 import com.hfad.mypocketlib.fragments.LibraryFragment
 import com.hfad.mypocketlib.fragments.SignFragment
+import com.hfad.mypocketlib.fragments.SignUpRequestFragment
 import com.hfad.mypocketlib.fragments.UserLibraryFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,17 +34,25 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
             db.getDao().deleteAdmin16()
         }
 
-        openFragment(LibraryFragment.newInstance())
         binding.btmNav.selectedItemId = R.id.library
+        openFragment(LibraryFragment.newInstance(),R.id.frLayout)
+
+        fragment = SignFragment.newInstance()
+        (fragment as SignFragment).setFragmentCallback(this)
+        openFragment(fragment,R.id.frTool)
 
         binding.btmNav.setOnItemSelectedListener {
             when(isSignIn){
                 false -> {
-                    fragment = SignFragment.newInstance()
-                    (fragment as SignFragment).setFragmentCallback(this)
                     when(it.itemId){
-                        R.id.user_library -> openFragment(fragment)
-                        R.id.library -> openFragment(LibraryFragment.newInstance())
+                        R.id.user_library -> openFragment(SignUpRequestFragment.newInstance(),R.id.frLayout)
+                        R.id.library ->{
+                            fragment = SignFragment.newInstance()
+                            (fragment as SignFragment).setFragmentCallback(this)
+                            openFragment(fragment,R.id.frTool)
+                            binding.frLayout.visibility = View.VISIBLE
+                            openFragment(LibraryFragment.newInstance(),R.id.frLayout)
+                        }
                         else -> true
                     }
                 }
@@ -50,8 +60,14 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
                     fragment = UserLibraryFragment.newInstance()
                     (fragment as UserLibraryFragment).setFragmentCallback(this)
                     when(it.itemId){
-                        R.id.user_library -> openFragment(fragment)
-                        R.id.library -> openFragment(LibraryFragment.newInstance())
+                        R.id.user_library -> openFragment(fragment,R.id.frLayout)
+                        R.id.library -> {
+                            fragment = SignFragment.newInstance()
+                            (fragment as SignFragment).setFragmentCallback(this)
+                            openFragment(fragment,R.id.frTool)
+                            binding.frLayout.visibility = View.VISIBLE
+                            openFragment(LibraryFragment.newInstance(),R.id.frLayout)
+                        }
                         else -> true
                     }
                 }
@@ -59,10 +75,10 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         }
     }
 
-    private fun openFragment(fragment: Fragment): Boolean{
+    private fun openFragment(fragment: Fragment, fragmentId: Int): Boolean{
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.frLayout, fragment)
+            .replace(fragmentId, fragment)
             .commit()
         return true
     }
@@ -72,16 +88,26 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         if (action == "startUserLibraryFragment") {
             fragment = UserLibraryFragment.newInstance()
             (fragment as UserLibraryFragment).setFragmentCallback(this)
-            openFragment(fragment)
+            openFragment(fragment,R.id.frLayout)
+        }
+        if (action == "clearLayoutFragment") {
+            binding.btmNav.selectedItemId = R.id.user_library
+            binding.frLayout.visibility = View.GONE
+        }
+        if (action == "clearToolFragment") {
+            binding.frTool.visibility = View.GONE
+            binding.frLayout.visibility = View.VISIBLE
         }
         if (action == "startSignFragment") {
+            binding.btmNav.selectedItemId = R.id.user_library
             fragment = SignFragment.newInstance()
             (fragment as SignFragment).setFragmentCallback(this)
-            openFragment(fragment)
+            openFragment(fragment,R.id.frLayout)
         }
-    }
-
-    fun getDatabaseInstance(): DbHelper {
-        return DbHelper.getDb(this)
+        if (action == "startSignUpRequestFragment") {
+            binding.btmNav.selectedItemId = R.id.user_library
+            binding.frTool.visibility = View.VISIBLE
+            openFragment(SignUpRequestFragment.newInstance(),R.id.frLayout)
+        }
     }
 }

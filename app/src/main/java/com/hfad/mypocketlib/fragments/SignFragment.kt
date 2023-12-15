@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.hfad.mypocketlib.R
 import com.hfad.mypocketlib.database.DbHelper
 import com.hfad.mypocketlib.database.User
@@ -19,7 +20,6 @@ class SignFragment : Fragment() {
     private lateinit var binding:FragmentSignBinding
     private lateinit var db: DbHelper
     private var fragmentCallback: FragmentCallback? = null
-    private var condition: Boolean = false
 
     fun setFragmentCallback(callback: FragmentCallback) {
         fragmentCallback = callback
@@ -36,14 +36,43 @@ class SignFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         db = DbHelper.getDb(requireContext())
 
-        binding.ibBack.setOnClickListener{
-            condition = false
+        binding.tvSignUp.setOnClickListener{
+            fragmentCallback?.onFragmentAction("clearLayoutFragment",false)
             binding.apply {
+                tvSignUp.background = ContextCompat.getDrawable(requireContext(),R.drawable.shape_sign_selected)
+                tvSignUp.setTextColor(ContextCompat.getColor(requireContext(),R.color.btmNavBackground))
+                tvSignIn.background = ContextCompat.getDrawable(requireContext(),R.drawable.shape_sign)
+                tvSignIn.setTextColor(ContextCompat.getColor(requireContext(),R.color.layoutBackground))
+
                 tvInfo.text = resources.getText(R.string.sign_up)
+                tvInfo.visibility = View.VISIBLE
+                edLogin.visibility = View.VISIBLE
                 edEmail.visibility = View.VISIBLE
-                btnSignUp.visibility = View.VISIBLE
+                edPas.visibility = View.VISIBLE
                 tvPasForgot.visibility = View.GONE
-                ibBack.visibility = View.GONE
+                clButtons.visibility = View.VISIBLE
+                btnSignUp.visibility = View.VISIBLE
+                btnSignIn.visibility = View.GONE
+            }
+        }
+
+        binding.tvSignIn.setOnClickListener{
+            fragmentCallback?.onFragmentAction("clearLayoutFragment",false)
+            binding.apply {
+                tvSignIn.background = ContextCompat.getDrawable(requireContext(),R.drawable.shape_sign_selected)
+                tvSignIn.setTextColor(ContextCompat.getColor(requireContext(),R.color.btmNavBackground))
+                tvSignUp.background = ContextCompat.getDrawable(requireContext(),R.drawable.shape_sign)
+                tvSignUp.setTextColor(ContextCompat.getColor(requireContext(),R.color.layoutBackground))
+
+                tvInfo.text = resources.getText(R.string.sign_in)
+                tvInfo.visibility = View.VISIBLE
+                edLogin.visibility = View.VISIBLE
+                edEmail.visibility = View.GONE
+                edPas.visibility = View.VISIBLE
+                tvPasForgot.visibility = View.VISIBLE
+                clButtons.visibility = View.VISIBLE
+                btnSignUp.visibility = View.GONE
+                btnSignIn.visibility = View.VISIBLE
             }
         }
 
@@ -75,6 +104,7 @@ class SignFragment : Fragment() {
                     CoroutineScope(Dispatchers.IO).launch {
                         db.getDao().insertUser(user)
                     }
+                    fragmentCallback?.onFragmentAction("clearToolFragment",true)
                     fragmentCallback?.onFragmentAction("startUserLibraryFragment",true)
                 }
                 else {
@@ -84,37 +114,24 @@ class SignFragment : Fragment() {
         }
 
         binding.btnSignIn.setOnClickListener{
-            when(condition){
-                false -> {
-                    binding.apply {
-                        tvInfo.text = resources.getText(R.string.sign_in)
-                        ibBack.visibility = View.VISIBLE
-                        edEmail.visibility = View.GONE
-                        btnSignUp.visibility = View.GONE
-                        tvPasForgot.visibility = View.VISIBLE
-                    }
-                    condition = true
+            var user:User?
+            val job = CoroutineScope(Dispatchers.IO).async{
+                db.getDao().getUserByLogin(inputLogin = binding.edLogin.text.toString())
+            }
+            runBlocking {
+                user = job.await()
+            }
+            if(user != null){
+                if(binding.edPas.text.toString() != user?.password){
+                    binding.edPas.error = resources.getText(R.string.wrg_password)
                 }
-                true -> {
-                    var user:User?
-                    val job = CoroutineScope(Dispatchers.IO).async{
-                        db.getDao().getUserByLogin(inputLogin = binding.edLogin.text.toString())
-                    }
-                    runBlocking {
-                        user = job.await()
-                    }
-                    if(user != null){
-                        if(binding.edPas.text.toString() != user?.password){
-                            binding.edPas.error = resources.getText(R.string.wrg_password)
-                        }
-                        else{
-                            fragmentCallback?.onFragmentAction("startUserLibraryFragment",true)
-                        }
-                    }
-                    else{
-                        binding.edLogin.error = resources.getText(R.string.wrg_login)
-                    }
+                else{
+                    fragmentCallback?.onFragmentAction("clearToolFragment",true)
+                    fragmentCallback?.onFragmentAction("startUserLibraryFragment",true)
                 }
+            }
+            else{
+                binding.edLogin.error = resources.getText(R.string.wrg_login)
             }
         }
     }

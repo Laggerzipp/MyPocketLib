@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/layoutBackground"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/layoutBackground"
+        android:orientation="vertical">
 
     <ImageButton
         android:id="@+id/ib_back"
@@ -50,6 +55,10 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
+            android:paddingStart="3dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="3dp"
+            android:paddingBottom="3dp"
             android:background="@drawable/shape_rounded_layout"
             android:gravity="center"
             tool:text="Title" />
@@ -161,9 +170,9 @@
             style="@style/TextStyleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/shape_rounded_layout"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
@@ -197,4 +206,5 @@
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -26,7 +26,7 @@ class UserLibraryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnLogOut.setOnClickListener{
-            fragmentCallback?.onFragmentAction("startSignFragment",false)
+            fragmentCallback?.onFragmentAction("startSignUpRequestFragment",false)
         }
     }
 
