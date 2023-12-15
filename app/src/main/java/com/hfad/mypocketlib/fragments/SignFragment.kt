@@ -37,7 +37,7 @@ class SignFragment : Fragment() {
         db = DbHelper.getDb(requireContext())
 
         binding.tvSignUp.setOnClickListener{
-            fragmentCallback?.onFragmentAction("clearLayoutFragment",false)
+            fragmentCallback?.onFragmentAction("clearLayoutFragment",false, null)
             binding.apply {
                 tvSignUp.background = ContextCompat.getDrawable(requireContext(),R.drawable.shape_sign_selected)
                 tvSignUp.setTextColor(ContextCompat.getColor(requireContext(),R.color.btmNavBackground))
@@ -57,7 +57,7 @@ class SignFragment : Fragment() {
         }
 
         binding.tvSignIn.setOnClickListener{
-            fragmentCallback?.onFragmentAction("clearLayoutFragment",false)
+            fragmentCallback?.onFragmentAction("clearLayoutFragment",false, null)
             binding.apply {
                 tvSignIn.background = ContextCompat.getDrawable(requireContext(),R.drawable.shape_sign_selected)
                 tvSignIn.setTextColor(ContextCompat.getColor(requireContext(),R.color.btmNavBackground))
@@ -93,7 +93,7 @@ class SignFragment : Fragment() {
                 binding.edPas.error = resources.getText(R.string.password_is_too_short)
             }
             else{
-                val user = User(null, login, email, pas)
+                val user = User(null, login, email, pas, null, null , null)
                 val job = CoroutineScope(Dispatchers.IO).async {
                     db.getDao().getUserByLogin(binding.edLogin.text.toString())
                 }
@@ -104,8 +104,8 @@ class SignFragment : Fragment() {
                     CoroutineScope(Dispatchers.IO).launch {
                         db.getDao().insertUser(user)
                     }
-                    fragmentCallback?.onFragmentAction("clearToolFragment",true)
-                    fragmentCallback?.onFragmentAction("startUserLibraryFragment",true)
+                    fragmentCallback?.onFragmentAction("clearToolFragment",true, null)
+                    fragmentCallback?.onFragmentAction("startUserLibraryFragment",true, user)
                 }
                 else {
                     binding.edLogin.error = resources.getText(R.string.login_already_exist)
@@ -126,8 +126,8 @@ class SignFragment : Fragment() {
                     binding.edPas.error = resources.getText(R.string.wrg_password)
                 }
                 else{
-                    fragmentCallback?.onFragmentAction("clearToolFragment",true)
-                    fragmentCallback?.onFragmentAction("startUserLibraryFragment",true)
+                    fragmentCallback?.onFragmentAction("clearToolFragment",true, null)
+                    fragmentCallback?.onFragmentAction("startUserLibraryFragment",true, user)
                 }
             }
             else{

@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         db = DbHelper.getDb(applicationContext)
 
         CoroutineScope(Dispatchers.IO).launch {
-            db.getDao().insertUser(User(null,"admin16","admin","admin"))
+            db.getDao().insertUser(User(null,"admin16","admin","admin", null, null , null))
             db.getDao().deleteAdmin16()
         }
 
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         return true
     }
 
-    override fun onFragmentAction(action: String, isSignIn: Boolean) {
+    override fun onFragmentAction(action: String, isSignIn: Boolean, user: User?) {
         this.isSignIn = isSignIn
         if (action == "startUserLibraryFragment") {
             fragment = UserLibraryFragment.newInstance()
