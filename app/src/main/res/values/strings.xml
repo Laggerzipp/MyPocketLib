@@ -32,4 +32,5 @@
     <string name="reading">Reading</string>
     <string name="add_to_lists">Add to Lists</string>
     <string name="book_image">Book image</string>
+    <string name="search">Search...</string>
 </resources>

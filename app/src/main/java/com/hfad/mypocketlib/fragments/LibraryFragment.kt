@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hfad.mypocketlib.BookActivity
 import com.hfad.mypocketlib.LibraryAdapter
@@ -46,6 +47,35 @@ class LibraryFragment : Fragment(),LibraryAdapter.Listener {
                     db.getDao().insertBook(b)
                 }
                 adapter.addBook(b)
+            }
+        }
+
+        binding.ibSearch.setOnClickListener {
+            adapter.clearBooks()
+            var flag = false
+            val textSearch = binding.edSearch.text.toString().trim().lowercase()
+            for(b in books){
+                if(textSearch == b.title.lowercase()){
+                    adapter.addBook(b)
+                    flag = true
+                    break
+                }
+                if(textSearch == b.author.lowercase()){
+                    adapter.addBook(b)
+                    flag = true
+                    continue
+                }
+                if (textSearch == b.language.lowercase()){
+                    adapter.addBook(b)
+                    flag = true
+                    continue
+                }
+            }
+            if(!flag){
+                Toast.makeText(requireContext(),"Books not found",Toast.LENGTH_SHORT).show()
+                for(b in books) {
+                    adapter.addBook(b)
+                }
             }
         }
 

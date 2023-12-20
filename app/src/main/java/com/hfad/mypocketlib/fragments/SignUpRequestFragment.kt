@@ -8,16 +8,11 @@ import android.view.ViewGroup
 import com.hfad.mypocketlib.databinding.FragmentSignUpRequestBinding
 class SignUpRequestFragment : Fragment() {
     private lateinit var binding: FragmentSignUpRequestBinding
-    private var fragmentCallback: FragmentCallback? = null
-    private var condition: Boolean = false
 
-    fun setFragmentCallback(callback: FragmentCallback) {
-        fragmentCallback = callback
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         binding = FragmentSignUpRequestBinding.inflate(inflater)
         return binding.root
     }
