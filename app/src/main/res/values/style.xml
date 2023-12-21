@@ -13,4 +13,8 @@
     <style name="DescriptionStyleView" parent="TextStyle">
         <item name="android:textSize">15sp</item>
     </style>
+
+    <style name="MyBottomNav" parent="Widget.Design.BottomNavigationView">
+        <item name="android:itemBackground">@color/btmNavBackground</item>
+    </style>
 </resources>
