@@ -23,32 +23,34 @@ class LibraryFragment : Fragment(),LibraryAdapter.Listener {
     private lateinit var db: DbHelper
     private val adapter = LibraryAdapter(this)
     private var userLogin: String? = null
+    private lateinit var books: List<Book>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         userLogin = arguments?.getString("userLogin")
+        if (!::books.isInitialized) {
+            db = DbHelper.getDb(requireContext())
+            books = DbHelper.createBookTable().shuffled()
+            Log.d("Books", "Book table successfully created")
+
+            CoroutineScope(Dispatchers.IO).launch {
+                for(b in books){
+                    val existingBook = db.getDao().getBookByTitle(b.title)
+                    if (existingBook == null) {
+                        db.getDao().insertBook(b)
+                    }
+                }
+            }
+        }
         // Inflate the layout for this fragment
         binding = FragmentLibraryBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        db = DbHelper.getDb(requireContext())
-
-        val books = DbHelper.createBookTable().shuffled()
-        Log.d("Books","Book table successfully created")
-
-        CoroutineScope(Dispatchers.IO).launch {
-            for(b in books){
-                val existingBook = db.getDao().getBookByTitle(b.title)
-                if (existingBook == null) {
-                    db.getDao().insertBook(b)
-                }
-                adapter.addBook(b)
-            }
-        }
+        adapter.addBooks(books)
 
         binding.ibSearch.setOnClickListener {
             adapter.clearBooks()
