@@ -34,7 +34,7 @@
                 android:layout_height="@dimen/im_heightookLayout"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:src="@drawable/book_drugoj_mir_popadanec"
+                android:src="@drawable/book_memoirs_of_sherlock_holms"
                 android:contentDescription="@string/book_image" />
         </androidx.cardview.widget.CardView>
 

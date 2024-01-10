@@ -33,6 +33,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/btmNav"
+        style = "@style/MyBottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/btmNavBackground"

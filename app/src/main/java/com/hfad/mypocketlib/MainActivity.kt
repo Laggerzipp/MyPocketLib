@@ -36,11 +36,7 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         }
 
         binding.btmNav.selectedItemId = R.id.library
-        openFragment(LibraryFragment.newInstance(),R.id.frLayout)
-
-        fragment = SignFragment.newInstance()
-        (fragment as SignFragment).setFragmentCallback(this)
-        openFragment(fragment,R.id.frTool)
+        onFragmentAction("startLibraryFragment",false,userLogin)
 
         binding.btmNav.setOnItemSelectedListener {
             when(isSignIn){
